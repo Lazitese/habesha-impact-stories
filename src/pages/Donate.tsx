@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
-import { BuildingBank, Copy, Check } from "lucide-react";
+import { Building, Copy, Check } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SectionHeading from "@/components/shared/SectionHeading";
 
@@ -45,12 +44,10 @@ const Donate = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend or email service
     toast({
       title: "Donation Information Received",
       description: "Thank you for your donation! We will contact you shortly.",
     });
-    // Reset form
     setForm({
       fullName: "",
       email: "",
@@ -67,7 +64,7 @@ const Donate = () => {
       title: "Copied to clipboard",
       description: `${fieldName} has been copied to your clipboard.`,
     });
-    
+
     setTimeout(() => {
       setCopiedField("");
     }, 2000);
@@ -87,7 +84,7 @@ const Donate = () => {
             {/* Bank Transfer Details */}
             <div className="lg:col-span-7 space-y-8">
               <h2 className="text-2xl font-bold mb-6 flex items-center">
-                <BuildingBank className="mr-2 h-6 w-6 text-brand" />
+                <Building className="mr-2 h-6 w-6 text-brand" />
                 Bank Transfer Details
               </h2>
               
