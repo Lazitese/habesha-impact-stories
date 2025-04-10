@@ -1,194 +1,267 @@
 
 import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, Check, CreditCard, Building, Phone } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { Label } from "@/components/ui/label";
+import { Bank, Copy, Check } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import SectionHeading from "@/components/shared/SectionHeading";
+
+const bankDetails = [
+  {
+    bankName: "Commercial Bank of Ethiopia",
+    accountName: "Ethiopia NGO Foundation",
+    accountNumber: "1000123456789",
+    branchName: "Addis Ababa Main Branch",
+    swiftCode: "CBETETAA"
+  },
+  {
+    bankName: "Dashen Bank",
+    accountName: "Ethiopia NGO Foundation",
+    accountNumber: "0123456789",
+    branchName: "Bole Branch",
+    swiftCode: "DASHETAA"
+  }
+];
 
 const Donate = () => {
-  const [copied, setCopied] = useState<string | null>(null);
+  const { toast } = useToast();
+  const [form, setForm] = useState({
+    fullName: "",
+    email: "",
+    amount: "",
+    purpose: "",
+    message: ""
+  });
+  const [copiedField, setCopiedField] = useState("");
 
-  const bankInfo = [
-    {
-      id: "account_number",
-      label: "Account Number",
-      value: "0123456789",
-    },
-    {
-      id: "account_name",
-      label: "Account Name",
-      value: "Ethiopia Impact Foundation",
-    },
-    {
-      id: "bank_name",
-      label: "Bank Name",
-      value: "Commercial Bank of Ethiopia",
-    },
-    {
-      id: "swift_code",
-      label: "SWIFT Code",
-      value: "CBETETAA",
-    },
-    {
-      id: "branch",
-      label: "Branch",
-      value: "Addis Ababa Main Branch",
-    },
-  ];
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
 
-  const mobileBanking = [
-    {
-      id: "cbe_birr",
-      label: "CBE Birr",
-      value: "+251 91 234 5678",
-    },
-    {
-      id: "amole",
-      label: "Amole (Dashen Bank)",
-      value: "+251 91 234 5678",
-    },
-  ];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would typically send the form data to your backend or email service
+    toast({
+      title: "Donation Information Received",
+      description: "Thank you for your donation! We will contact you shortly.",
+    });
+    // Reset form
+    setForm({
+      fullName: "",
+      email: "",
+      amount: "",
+      purpose: "",
+      message: ""
+    });
+  };
 
-  const handleCopy = (id: string, value: string) => {
-    navigator.clipboard.writeText(value);
-    setCopied(id);
-    setTimeout(() => setCopied(null), 2000);
+  const copyToClipboard = (text: string, fieldName: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(fieldName);
+    toast({
+      title: "Copied to clipboard",
+      description: `${fieldName} has been copied to your clipboard.`,
+    });
+    
+    setTimeout(() => {
+      setCopiedField("");
+    }, 2000);
   };
 
   return (
     <MainLayout>
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2000&auto=format&fit=crop"
-            alt="Donate Hero"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/50"></div>
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10 text-white">
-          <div className="max-w-3xl animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 font-poppins">Support Our Cause</h1>
-            <p className="text-xl">
-              Your generous donation helps us continue our work in Ethiopian communities, 
-              providing clean water, education, healthcare, and more.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Donation Information */}
-      <section className="py-16 md:py-24">
+      <section className="pt-32 pb-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-10 font-poppins text-center relative">
-              How Your Donation Helps
-              <span className="absolute h-1 bg-brand bottom-0 left-1/2 transform -translate-x-1/2 w-20"></span>
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-              <div className="text-center p-6 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-brand/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CreditCard className="h-8 w-8 text-brand" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">$25</h3>
-                <p className="text-gray-600">Provides clean water to a family for one month</p>
-              </div>
+          <SectionHeading 
+            title="Make a Donation" 
+            subtitle="Your generous contribution helps us continue our mission in Ethiopia"
+            centered
+          />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mt-10">
+            {/* Bank Transfer Details */}
+            <div className="lg:col-span-7 space-y-8">
+              <h2 className="text-2xl font-bold mb-6 flex items-center">
+                <Bank className="mr-2 h-6 w-6 text-brand" />
+                Bank Transfer Details
+              </h2>
               
-              <div className="text-center p-6 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-brand/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CreditCard className="h-8 w-8 text-brand" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">$100</h3>
-                <p className="text-gray-600">Sponsors a child's education for one semester</p>
-              </div>
-              
-              <div className="text-center p-6 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-brand/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CreditCard className="h-8 w-8 text-brand" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">$500</h3>
-                <p className="text-gray-600">Helps build a water well for an entire community</p>
-              </div>
-            </div>
-            
-            {/* Bank Transfer Information */}
-            <div className="bg-white p-8 rounded-xl shadow-lg mb-10 border border-gray-100">
-              <div className="flex items-center mb-6">
-                <div className="bg-brand/10 w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                  <Building className="h-6 w-6 text-brand" />
-                </div>
-                <h3 className="text-2xl font-bold">Bank Transfer Details</h3>
-              </div>
-              
-              <div className="space-y-4">
-                {bankInfo.map((item) => (
-                  <div key={item.id} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <Label className="text-gray-600">{item.label}</Label>
-                      <p className="font-semibold">{item.value}</p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleCopy(item.id, item.value)}
-                      className="text-gray-500 hover:text-brand"
-                    >
-                      {copied === item.id ? (
-                        <Check className="h-5 w-5" />
-                      ) : (
-                        <Copy className="h-5 w-5" />
-                      )}
-                    </Button>
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {bankDetails.map((bank, index) => (
+                  <Card key={index} className="shadow-lg hover:shadow-xl transition-shadow">
+                    <CardHeader className="bg-gray-100">
+                      <CardTitle className="text-xl">{bank.bankName}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-6">
+                      <ul className="space-y-4">
+                        <li>
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className="text-sm text-gray-500">Account Name</p>
+                              <p className="font-medium">{bank.accountName}</p>
+                            </div>
+                            <button 
+                              onClick={() => copyToClipboard(bank.accountName, `${bank.bankName} Account Name`)}
+                              className="text-gray-400 hover:text-brand transition-colors"
+                              aria-label="Copy account name"
+                            >
+                              {copiedField === `${bank.bankName} Account Name` ? 
+                                <Check className="h-5 w-5 text-green-500" /> : 
+                                <Copy className="h-5 w-5" />
+                              }
+                            </button>
+                          </div>
+                        </li>
+                        
+                        <li>
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className="text-sm text-gray-500">Account Number</p>
+                              <p className="font-medium">{bank.accountNumber}</p>
+                            </div>
+                            <button 
+                              onClick={() => copyToClipboard(bank.accountNumber, `${bank.bankName} Account Number`)}
+                              className="text-gray-400 hover:text-brand transition-colors"
+                              aria-label="Copy account number"
+                            >
+                              {copiedField === `${bank.bankName} Account Number` ? 
+                                <Check className="h-5 w-5 text-green-500" /> : 
+                                <Copy className="h-5 w-5" />
+                              }
+                            </button>
+                          </div>
+                        </li>
+                        
+                        <li>
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className="text-sm text-gray-500">Branch</p>
+                              <p className="font-medium">{bank.branchName}</p>
+                            </div>
+                          </div>
+                        </li>
+                        
+                        {bank.swiftCode && (
+                          <li>
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <p className="text-sm text-gray-500">SWIFT Code</p>
+                                <p className="font-medium">{bank.swiftCode}</p>
+                              </div>
+                              <button 
+                                onClick={() => copyToClipboard(bank.swiftCode, `${bank.bankName} SWIFT Code`)}
+                                className="text-gray-400 hover:text-brand transition-colors"
+                                aria-label="Copy SWIFT code"
+                              >
+                                {copiedField === `${bank.bankName} SWIFT Code` ? 
+                                  <Check className="h-5 w-5 text-green-500" /> : 
+                                  <Copy className="h-5 w-5" />
+                                }
+                              </button>
+                            </div>
+                          </li>
+                        )}
+                      </ul>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
-            </div>
-            
-            {/* Mobile Banking */}
-            <div className="bg-white p-8 rounded-xl shadow-lg mb-10 border border-gray-100">
-              <div className="flex items-center mb-6">
-                <div className="bg-brand/10 w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                  <Phone className="h-6 w-6 text-brand" />
-                </div>
-                <h3 className="text-2xl font-bold">Mobile Banking Options</h3>
-              </div>
               
-              <div className="space-y-4">
-                {mobileBanking.map((item) => (
-                  <div key={item.id} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <Label className="text-gray-600">{item.label}</Label>
-                      <p className="font-semibold">{item.value}</p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleCopy(item.id, item.value)}
-                      className="text-gray-500 hover:text-brand"
-                    >
-                      {copied === item.id ? (
-                        <Check className="h-5 w-5" />
-                      ) : (
-                        <Copy className="h-5 w-5" />
-                      )}
-                    </Button>
-                  </div>
-                ))}
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r">
+                <p className="text-yellow-700">
+                  <strong>Important:</strong> When making a bank transfer, please include your name as a reference 
+                  so we can properly acknowledge your donation.
+                </p>
               </div>
             </div>
             
-            {/* Important Note */}
-            <div className="bg-amber-50 p-6 rounded-lg border border-amber-200">
-              <h4 className="text-lg font-bold mb-2">Important Note</h4>
-              <p className="text-gray-700">
-                After making your donation, please email us at <a href="mailto:donations@ethiopiaimpact.org" className="text-brand hover:underline">donations@ethiopiaimpact.org</a> with 
-                your transaction details so we can acknowledge your contribution and provide you with a donation receipt.
-              </p>
+            {/* Donation Form */}
+            <div className="lg:col-span-5">
+              <Card className="shadow-lg">
+                <CardHeader className="bg-brand text-white">
+                  <CardTitle className="text-xl">Donation Information</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="fullName">Full Name</Label>
+                      <Input 
+                        id="fullName" 
+                        name="fullName" 
+                        value={form.fullName} 
+                        onChange={handleChange} 
+                        placeholder="Your full name"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email Address</Label>
+                      <Input 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        value={form.email} 
+                        onChange={handleChange} 
+                        placeholder="Your email address"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="amount">Donation Amount (USD)</Label>
+                      <Input 
+                        id="amount" 
+                        name="amount" 
+                        type="number" 
+                        value={form.amount} 
+                        onChange={handleChange} 
+                        placeholder="Amount in USD"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="purpose">Purpose (Optional)</Label>
+                      <select 
+                        id="purpose" 
+                        name="purpose" 
+                        value={form.purpose} 
+                        onChange={handleChange}
+                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
+                      >
+                        <option value="">Select a purpose (optional)</option>
+                        <option value="General Support">General Support</option>
+                        <option value="Education Programs">Education Programs</option>
+                        <option value="Healthcare Initiatives">Healthcare Initiatives</option>
+                        <option value="Clean Water Projects">Clean Water Projects</option>
+                        <option value="Community Development">Community Development</option>
+                      </select>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="message">Message (Optional)</Label>
+                      <Textarea 
+                        id="message" 
+                        name="message" 
+                        value={form.message} 
+                        onChange={handleChange} 
+                        placeholder="Any specific instructions or messages"
+                        rows={4}
+                      />
+                    </div>
+                    
+                    <Button type="submit" className="w-full bg-brand hover:bg-brand/90">
+                      Submit Donation Information
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

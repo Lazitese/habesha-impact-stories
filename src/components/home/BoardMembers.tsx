@@ -6,32 +6,28 @@ const boardMembers = [
   {
     name: "Dr. Hirut Tadesse",
     title: "Chairperson",
-    image: "https://images.unsplash.com/photo-1587612049655-c1030366a74a?q=80&w=1000&auto=format&fit=crop",
-    bio: "Dr. Hirut brings over 20 years of experience in international development and has led numerous successful initiatives across Africa."
+    image: "https://images.unsplash.com/photo-1587612049655-c1030366a74a?q=80&w=1000&auto=format&fit=crop"
   },
   {
     name: "Samuel Bekele",
     title: "Executive Director",
-    image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?q=80&w=1000&auto=format&fit=crop",
-    bio: "With a background in social entrepreneurship, Samuel has dedicated his career to creating sustainable solutions for communities in Ethiopia."
+    image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?q=80&w=1000&auto=format&fit=crop"
   },
   {
     name: "Meron Haile",
     title: "Director of Programs",
-    image: "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=1000&auto=format&fit=crop",
-    bio: "Meron oversees all programs and ensures they align with our mission to create lasting impact in Ethiopian communities."
+    image: "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?q=80&w=1000&auto=format&fit=crop"
   },
   {
     name: "Dr. Yonas Asfaw",
     title: "Medical Director",
-    image: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=1000&auto=format&fit=crop",
-    bio: "Dr. Yonas leads our healthcare initiatives and has pioneered innovative approaches to rural healthcare delivery."
+    image: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=1000&auto=format&fit=crop"
   }
 ];
 
 const BoardMembers = () => {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4">
         <SectionHeading 
           title="Our Board Members" 
