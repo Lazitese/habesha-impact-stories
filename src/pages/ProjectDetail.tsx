@@ -1,6 +1,6 @@
 
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, MapPin, Users } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,25 +11,14 @@ const projects = [
     id: "1",
     title: "Clean Water Initiative",
     category: "completed" as const,
-    location: "Amhara Region, Ethiopia",
-    startDate: "January 2021",
-    endDate: "December 2022",
-    beneficiaries: "5,000+ residents",
-    description: "The Clean Water Initiative aimed to address the critical shortage of clean water in rural communities of the Amhara Region. Many residents had to walk several kilometers each day to collect water from unsafe sources, leading to waterborne diseases and limiting time for education and economic activities.",
-    goals: [
-      "Construct 10 deep wells across the region",
-      "Install water purification systems in each community",
-      "Train local technicians to maintain the water systems",
-      "Educate communities on water conservation and hygiene practices"
-    ],
-    impact: "The project has dramatically improved health outcomes in the target communities, with a 65% reduction in waterborne diseases in the first year after implementation. Children, particularly girls, now have more time to attend school instead of collecting water. Local committees have been established to maintain the systems, ensuring long-term sustainability.",
-    challenges: "We faced challenges with difficult terrain for drilling and initially low community engagement. Through persistent community outreach and adapting our technical approaches, we overcame these obstacles.",
+    description: "The Clean Water Initiative aimed to address the critical shortage of clean water in rural communities of the Amhara Region. Many residents had to walk several kilometers each day to collect water from unsafe sources, leading to waterborne diseases and limiting time for education and economic activities.\n\nFocus areas included constructing 10 deep wells across the region, installing water purification systems in each community, training local technicians to maintain the water systems, and educating communities on water conservation and hygiene practices.\n\nThe project has dramatically improved health outcomes in the target communities, with a 65% reduction in waterborne diseases in the first year after implementation. Children, particularly girls, now have more time to attend school instead of collecting water. Local committees have been established to maintain the systems, ensuring long-term sustainability.\n\nWe faced challenges with difficult terrain for drilling and initially low community engagement. Through persistent community outreach and adapting our technical approaches, we overcame these obstacles.",
     images: [
       "https://images.unsplash.com/photo-1626264146977-0d5839bb5dcd?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1469159604762-91202891c492?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1528302570631-9123de048188?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1508124780861-b1687f9a13e5?q=80&w=1000&auto=format&fit=crop"
-    ]
+    ],
+    videoUrl: "https://www.youtube.com/embed/XqZsoesa55w"
   },
   // More projects would be defined here
 ];
@@ -55,6 +44,9 @@ const ProjectDetail = () => {
     );
   }
 
+  // Split description into paragraphs
+  const paragraphs = project.description.split('\n\n');
+
   return (
     <MainLayout>
       {/* Hero Section */}
@@ -65,7 +57,7 @@ const ProjectDetail = () => {
             alt={project.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10 text-white">
@@ -89,84 +81,53 @@ const ProjectDetail = () => {
       {/* Project Details */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            {/* Main Content - Left Side */}
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold mb-6">About the Project</h2>
-              <p className="text-gray-600 mb-8">{project.description}</p>
-              
-              <h3 className="text-2xl font-bold mb-4">Project Goals</h3>
-              <ul className="list-disc pl-6 mb-8 space-y-2 text-gray-600">
-                {project.goals.map((goal, index) => (
-                  <li key={index}>{goal}</li>
-                ))}
-              </ul>
-              
-              <h3 className="text-2xl font-bold mb-4">Impact</h3>
-              <p className="text-gray-600 mb-8">{project.impact}</p>
-              
-              <h3 className="text-2xl font-bold mb-4">Challenges & Solutions</h3>
-              <p className="text-gray-600 mb-8">{project.challenges}</p>
-              
-              {/* Image Gallery */}
-              <h3 className="text-2xl font-bold mb-4">Project Gallery</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-8 font-poppins relative inline-block">
+              About the Project
+              <span className="absolute h-1 bg-brand bottom-0 left-0 w-16"></span>
+            </h2>
+            
+            {paragraphs.map((paragraph, index) => (
+              <p key={index} className="text-gray-700 mb-6 leading-relaxed">{paragraph}</p>
+            ))}
+            
+            {/* Video */}
+            {project.videoUrl && (
+              <div className="my-10">
+                <h3 className="text-2xl font-bold mb-4 font-poppins">Project Video</h3>
+                <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                  <iframe 
+                    src={project.videoUrl} 
+                    title={`${project.title} video`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
+              </div>
+            )}
+            
+            {/* Image Gallery */}
+            <div className="my-10">
+              <h3 className="text-2xl font-bold mb-4 font-poppins">Project Gallery</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {project.images.map((image, index) => (
-                  <div key={index} className="rounded-lg overflow-hidden shadow-md h-64">
+                  <div key={index} className="rounded-lg overflow-hidden shadow-md h-64 transition-transform hover:scale-105 duration-300">
                     <img
                       src={image}
                       alt={`${project.title} - Image ${index + 1}`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 ))}
               </div>
             </div>
             
-            {/* Sidebar - Right Side */}
-            <div>
-              <div className="bg-gray-100 p-6 rounded-lg shadow-md mb-6">
-                <h3 className="text-xl font-bold mb-4">Project Details</h3>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start">
-                    <MapPin className="h-5 w-5 text-brand mr-3 mt-0.5" />
-                    <div>
-                      <h4 className="font-semibold">Location</h4>
-                      <p className="text-gray-600">{project.location}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <Calendar className="h-5 w-5 text-brand mr-3 mt-0.5" />
-                    <div>
-                      <h4 className="font-semibold">Timeline</h4>
-                      <p className="text-gray-600">
-                        {project.startDate} - {project.endDate || "Present"}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <Users className="h-5 w-5 text-brand mr-3 mt-0.5" />
-                    <div>
-                      <h4 className="font-semibold">Beneficiaries</h4>
-                      <p className="text-gray-600">{project.beneficiaries}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Call to Action */}
-              <div className="bg-brand p-6 rounded-lg shadow-md text-white">
-                <h3 className="text-xl font-bold mb-4">Support Our Work</h3>
-                <p className="mb-4">
-                  Your contribution helps us continue projects like this and expand our impact across Ethiopia.
-                </p>
-                <Button asChild className="w-full bg-white text-brand hover:bg-gray-100">
-                  <Link to="/donate">Donate Now</Link>
-                </Button>
-              </div>
+            {/* Call to Action */}
+            <div className="mt-12 text-center">
+              <Button asChild className="bg-brand hover:bg-brand/90 text-white px-8 py-6 text-lg">
+                <Link to="/donate">Support Our Work</Link>
+              </Button>
             </div>
           </div>
         </div>
