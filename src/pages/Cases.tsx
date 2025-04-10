@@ -2,6 +2,13 @@
 import MainLayout from "@/components/layout/MainLayout";
 import SectionHeading from "@/components/shared/SectionHeading";
 import CaseCard from "@/components/shared/CaseCard";
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from "@/components/ui/carousel";
 
 // Sample cases data
 const allCases = [
@@ -43,6 +50,28 @@ const allCases = [
   }
 ];
 
+// Testimonials data
+const testimonials = [
+  {
+    id: 1,
+    quote: "The clean water well in our village has changed everything. Our children are healthier, and the women don't have to walk for hours to fetch water anymore.",
+    name: "Fatima Negash",
+    title: "Village Elder, Tigray Region"
+  },
+  {
+    id: 2,
+    quote: "I was the first in my family to finish high school, and now I'm in university studying to be a doctor. None of this would have been possible without the scholarship program.",
+    name: "Biruk Tadesse",
+    title: "Medical Student, Addis Ababa"
+  },
+  {
+    id: 3,
+    quote: "The training I received helped me start my own business. Now I can provide for my family and even employ three other women from my community.",
+    name: "Hiwot Mekonnen",
+    title: "Entrepreneur, Oromia Region"
+  }
+];
+
 const Cases = () => {
   return (
     <MainLayout>
@@ -75,11 +104,33 @@ const Cases = () => {
             subtitle="Behind every project are real people with real stories of transformation"
           />
           
-          {/* Stories Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {allCases.map((caseItem) => (
-              <CaseCard key={caseItem.id} {...caseItem} />
-            ))}
+          {/* Stories Carousel */}
+          <div className="px-4 sm:px-6 lg:px-8 mt-10">
+            <Carousel 
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-2 md:-ml-4">
+                {allCases.map((caseItem) => (
+                  <CarouselItem key={caseItem.id} className="pl-2 md:pl-4 sm:basis-1/2 lg:basis-1/3">
+                    <div className="p-1">
+                      <CaseCard {...caseItem} />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex justify-end gap-2 mt-6">
+                <CarouselPrevious 
+                  className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
+                />
+                <CarouselNext 
+                  className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
+                />
+              </div>
+            </Carousel>
           </div>
         </div>
       </section>
@@ -93,57 +144,47 @@ const Cases = () => {
             centered
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="mb-4">
-                <svg className="h-8 w-8 text-brand" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                </svg>
+          <div className="px-4 sm:px-6 lg:px-8 mt-10">
+            <Carousel 
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {testimonials.map((testimonial) => (
+                  <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1">
+                      <div className="bg-white p-6 rounded-lg shadow-md h-full flex flex-col">
+                        <div className="mb-4">
+                          <svg className="h-8 w-8 text-brand" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                          </svg>
+                        </div>
+                        <p className="text-gray-600 mb-6 italic flex-grow">
+                          "{testimonial.quote}"
+                        </p>
+                        <div className="flex items-center mt-auto">
+                          <div>
+                            <h4 className="font-bold">{testimonial.name}</h4>
+                            <p className="text-gray-600">{testimonial.title}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex justify-center gap-2 mt-6">
+                <CarouselPrevious 
+                  className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
+                />
+                <CarouselNext 
+                  className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
+                />
               </div>
-              <p className="text-gray-600 mb-6 italic">
-                "The clean water well in our village has changed everything. Our children are healthier, and the women don't have to walk for hours to fetch water anymore."
-              </p>
-              <div className="flex items-center">
-                <div className="ml-4">
-                  <h4 className="font-bold">Fatima Negash</h4>
-                  <p className="text-gray-600">Village Elder, Tigray Region</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="mb-4">
-                <svg className="h-8 w-8 text-brand" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                </svg>
-              </div>
-              <p className="text-gray-600 mb-6 italic">
-                "I was the first in my family to finish high school, and now I'm in university studying to be a doctor. None of this would have been possible without the scholarship program."
-              </p>
-              <div className="flex items-center">
-                <div className="ml-4">
-                  <h4 className="font-bold">Biruk Tadesse</h4>
-                  <p className="text-gray-600">Medical Student, Addis Ababa</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="mb-4">
-                <svg className="h-8 w-8 text-brand" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                </svg>
-              </div>
-              <p className="text-gray-600 mb-6 italic">
-                "The training I received helped me start my own business. Now I can provide for my family and even employ three other women from my community."
-              </p>
-              <div className="flex items-center">
-                <div className="ml-4">
-                  <h4 className="font-bold">Hiwot Mekonnen</h4>
-                  <p className="text-gray-600">Entrepreneur, Oromia Region</p>
-                </div>
-              </div>
-            </div>
+            </Carousel>
           </div>
         </div>
       </section>

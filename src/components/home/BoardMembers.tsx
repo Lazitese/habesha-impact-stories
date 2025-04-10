@@ -1,6 +1,13 @@
 
 import SectionHeading from "../shared/SectionHeading";
 import BoardMemberCard from "../shared/BoardMemberCard";
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from "@/components/ui/carousel";
 
 const boardMembers = [
   {
@@ -35,10 +42,32 @@ const BoardMembers = () => {
           centered
         />
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {boardMembers.map((member, index) => (
-            <BoardMemberCard key={index} {...member} />
-          ))}
+        <div className="px-4 sm:px-6 lg:px-8 mt-12">
+          <Carousel 
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {boardMembers.map((member, index) => (
+                <CarouselItem key={index} className="pl-2 md:pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                  <div className="p-1">
+                    <BoardMemberCard {...member} />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex justify-end gap-2 mt-6">
+              <CarouselPrevious 
+                className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
+              />
+              <CarouselNext 
+                className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
+              />
+            </div>
+          </Carousel>
         </div>
       </div>
     </section>

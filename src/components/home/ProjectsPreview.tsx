@@ -1,9 +1,15 @@
 
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import SectionHeading from "../shared/SectionHeading";
 import ProjectCard from "../shared/ProjectCard";
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from "@/components/ui/carousel";
 
 const featuredProjects = [
   {
@@ -45,10 +51,32 @@ const ProjectsPreview = () => {
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.id} {...project} />
-          ))}
+        <div className="px-4 sm:px-6 lg:px-8">
+          <Carousel 
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {featuredProjects.map((project) => (
+                <CarouselItem key={project.id} className="pl-2 md:pl-4 sm:basis-1/2 lg:basis-1/3">
+                  <div className="p-1">
+                    <ProjectCard {...project} />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex justify-end gap-2 mt-6">
+              <CarouselPrevious 
+                className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
+              />
+              <CarouselNext 
+                className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
+              />
+            </div>
+          </Carousel>
         </div>
       </div>
     </section>
