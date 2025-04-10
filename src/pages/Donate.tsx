@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
-import { Bank, Copy, Check } from "lucide-react";
+import { BuildingBank, Copy, Check } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SectionHeading from "@/components/shared/SectionHeading";
 
@@ -87,7 +87,7 @@ const Donate = () => {
             {/* Bank Transfer Details */}
             <div className="lg:col-span-7 space-y-8">
               <h2 className="text-2xl font-bold mb-6 flex items-center">
-                <Bank className="mr-2 h-6 w-6 text-brand" />
+                <BuildingBank className="mr-2 h-6 w-6 text-brand" />
                 Bank Transfer Details
               </h2>
               
