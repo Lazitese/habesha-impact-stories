@@ -2,34 +2,23 @@
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Target, Calendar } from "lucide-react";
 
 interface ProjectCardProps {
   id: number;
   title: string;
-  shortDescription: string;
+  description: string;
   category: "completed" | "ongoing";
-  images: string[];
-  mainImageIndex?: number;
+  image: string;
 }
 
-const ProjectCard = ({ 
-  id, 
-  title, 
-  shortDescription, 
-  category, 
-  images, 
-  mainImageIndex = 0 
-}: ProjectCardProps) => {
-  // Get the main image
-  const mainImage = images[mainImageIndex] || images[0];
-
+const ProjectCard = ({ id, title, description, category, image }: ProjectCardProps) => {
   return (
     <Link to={`/projects/${id}`} className="group">
       <Card className="overflow-hidden h-full border-none shadow-lg transition-all duration-300 hover:shadow-xl group-hover:translate-y-[-5px]">
         <div className="relative h-56 overflow-hidden">
           <img
-            src={mainImage}
+            src={image}
             alt={title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
@@ -46,7 +35,7 @@ const ProjectCard = ({
         
         <CardContent className="p-5 bg-white">
           <h3 className="font-poppins font-bold text-xl mb-2 group-hover:text-brand transition-colors">{title}</h3>
-          <p className="text-gray-600 line-clamp-2 text-sm mb-4">{shortDescription}</p>
+          <p className="text-gray-600 line-clamp-2 text-sm mb-4">{description}</p>
           
           <div className="flex justify-between items-center">
             <span className="text-brand flex items-center text-sm font-medium transition-all duration-300 group-hover:translate-x-1">

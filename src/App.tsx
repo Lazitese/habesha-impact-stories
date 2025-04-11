@@ -16,14 +16,6 @@ import Donate from "./pages/Donate";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
-// CMS Pages
-import CmsLogin from "./pages/CmsLogin";
-import CmsLayout from "./components/cms/CmsLayout";
-import RequireAuth from "./components/cms/RequireAuth";
-import Dashboard from "./pages/cms/Dashboard";
-import ProjectsManagement from "./pages/cms/ProjectsManagement";
-import CmsPlaceholder from "./pages/cms/CmsPlaceholder";
-
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -33,7 +25,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <Routes>
-          {/* Public Routes */}
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
@@ -44,23 +35,7 @@ const App = () => (
           <Route path="/gallery/:id" element={<ArtDetail />} />
           <Route path="/donate" element={<Donate />} />
           <Route path="/contact" element={<Contact />} />
-          
-          {/* CMS Routes */}
-          <Route path="/cms" element={<CmsLogin />} />
-          <Route path="/cms/*" element={
-            <RequireAuth>
-              <CmsLayout />
-            </RequireAuth>
-          }>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="projects" element={<ProjectsManagement />} />
-            <Route path="cases" element={<CmsPlaceholder title="Case Studies Management" />} />
-            <Route path="gallery" element={<CmsPlaceholder title="Gallery Management" />} />
-            <Route path="board" element={<CmsPlaceholder title="Board Members Management" />} />
-            <Route path="settings" element={<CmsPlaceholder title="Settings" />} />
-          </Route>
-          
-          {/* Catch-all Route */}
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </TooltipProvider>

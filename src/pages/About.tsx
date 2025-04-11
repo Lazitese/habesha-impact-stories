@@ -67,63 +67,57 @@ const coreValues = [
 
 const About = () => {
   return (
-        <MainLayout>
-          {/* Hero Section */}
-          <section className="relative pt-32 pb-20 md:pt-40 md:pb-28">
-            <div className="absolute inset-0 z-0">
-              <img
-                src="https://images.unsplash.com/photo-1478147427282-58a87a120781?q=80&w=2000&auto=format&fit=crop"
-                alt="About Us Hero"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-            </div>
-
-            <div className="container mx-auto px-4 relative z-10 text-white">
-              <div className="max-w-3xl animate-fade-in">
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 font-poppins">About Us</h1>
-                <p className="text-xl">
-                  For over a decade, Habesha Impact has been working alongside Ethiopian communities
-                  to create lasting change through sustainable development initiatives.
-                </p>
+    <MainLayout>
+      {/* Hero Section with Organization Description */}
+      <section className="relative pt-32 pb-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="lg:w-1/2"
+            >
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 font-poppins relative inline-block">
+                About Habesha Impact
+                <span className="absolute -bottom-2 left-0 h-1 bg-brand w-24"></span>
+              </h1>
+              <p className="text-xl text-gray-600 mb-8">
+                For over a decade, Habesha Impact has been working alongside Ethiopian communities 
+                to create lasting change through sustainable development initiatives.
+              </p>
+              <p className="text-gray-700 mb-6">
+                Our organization was founded in 2008 by a group of Ethiopian and international 
+                development professionals who shared a vision of community-led sustainable development. 
+                We believe that lasting change happens when communities are empowered to identify their 
+                own needs and develop their own solutions.
+              </p>
+              <p className="text-gray-700">
+                Today, we work across multiple regions in Ethiopia, partnering with local communities, 
+                government agencies, and other organizations to implement programs that address critical 
+                needs in education, healthcare, clean water access, and economic opportunity.
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="lg:w-1/2"
+            >
+              <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                <img 
+                  src="https://images.unsplash.com/photo-1531400158697-004a3a06fd3f?q=80&w=1000&auto=format&fit=crop" 
+                  alt="Our team working in Ethiopia" 
+                  className="w-full h-auto object-cover aspect-[4/3]"
+                />
               </div>
-            </div>
-          </section>
-
-          {/* What We Do */}
-          <section className="py-16">
-            <div className="container mx-auto px-4">
-              <div className="flex flex-col lg:flex-row items-center gap-12">
-                <div className="lg:w-1/2">
-                  <SectionHeading title="What We Do" />
-                  <p className="text-gray-700 mb-4">
-                    Habesha Impact is dedicated to creating sustainable change in Ethiopia. We work in three key areas: Education, Healthcare, and Economic Empowerment.
-                  </p>
-                  <p className="text-gray-700 mb-4">
-                    Our programs focus on improving access to quality education, providing essential healthcare services, and fostering economic growth within local communities.
-                  </p>
-                  <p className="text-gray-700">
-                    By partnering with communities, government agencies, and other organizations, we ensure our work is effective, sustainable, and meets the needs of those we serve.
-                  </p>
-                </div>
-                <div className="lg:w-1/2">
-                  <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-white hover:shadow-xl transition-shadow duration-300">
-                    <img
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"
-                      alt="What We Do"
-                      className="w-full h-auto object-cover aspect-[4/3]"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-
-
-
-
-
+            </motion.div>
+          </div>
+        </div>
+      </section>
       
       {/* Our Mission & Vision */}
       <section className="py-16">
@@ -154,46 +148,6 @@ const About = () => {
                 We envision a future where Ethiopian communities lead their own development initiatives and create lasting solutions to local challenges.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Working with Us */}
-      <section className="relative py-20">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="lg:w-1/2"
-            >
-              <SectionHeading
-                title="Working with Us"
-                subtitle="Explore partnership opportunities and how you can contribute"
-              />
-
-              <p className="text-gray-700 text-lg leading-relaxed">
-                Join hands with Habesha Impact and be a part of our mission to create a brighter future for Ethiopian communities. Whether you're an individual, a business, or another organization, there are many ways to get involved and contribute to sustainable development in Ethiopia.
-              </p>
-            </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="lg:w-1/2"
-            >
-              <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-white hover:shadow-xl transition-shadow duration-300">
-                <img 
-                  src="https://images.unsplash.com/photo-1610001900067-a84f375b434e?q=80&w=1000&auto=format&fit=crop" 
-                  alt="Working with Us" 
-                  className="w-full h-auto object-cover aspect-[4/3]"
-                />
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>
