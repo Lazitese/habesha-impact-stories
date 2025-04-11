@@ -6,6 +6,7 @@ import GalleryPreview from "@/components/home/GalleryPreview";
 import BoardMembers from "@/components/home/BoardMembers";
 import CtaSection from "@/components/home/CtaSection";
 import AboutUsSnippet from "@/components/home/AboutUsSnippet";
+import ImpactStoriesSlider from "@/components/home/ImpactStoriesSlider";
 
 const Index = () => {
   return (
@@ -13,6 +14,7 @@ const Index = () => {
       <HeroSection />
       <AboutUsSnippet />
       <ProjectsPreview />
+      <ImpactStoriesSlider />
       <GalleryPreview />
       <BoardMembers />
       <CtaSection />

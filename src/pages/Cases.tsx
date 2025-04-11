@@ -1,7 +1,6 @@
 
 import MainLayout from "@/components/layout/MainLayout";
 import SectionHeading from "@/components/shared/SectionHeading";
-import CaseCard from "@/components/shared/CaseCard";
 import { 
   Carousel, 
   CarouselContent, 
@@ -9,6 +8,10 @@ import {
   CarouselNext, 
   CarouselPrevious 
 } from "@/components/ui/carousel";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 // Sample cases data
 const allCases = [
@@ -50,28 +53,6 @@ const allCases = [
   }
 ];
 
-// Testimonials data
-const testimonials = [
-  {
-    id: 1,
-    quote: "The clean water well in our village has changed everything. Our children are healthier, and the women don't have to walk for hours to fetch water anymore.",
-    name: "Fatima Negash",
-    title: "Village Elder, Tigray Region"
-  },
-  {
-    id: 2,
-    quote: "I was the first in my family to finish high school, and now I'm in university studying to be a doctor. None of this would have been possible without the scholarship program.",
-    name: "Biruk Tadesse",
-    title: "Medical Student, Addis Ababa"
-  },
-  {
-    id: 3,
-    quote: "The training I received helped me start my own business. Now I can provide for my family and even employ three other women from my community.",
-    name: "Hiwot Mekonnen",
-    title: "Entrepreneur, Oromia Region"
-  }
-];
-
 const Cases = () => {
   return (
     <MainLayout>
@@ -83,108 +64,73 @@ const Cases = () => {
             alt="Impact Stories Hero"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/40"></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10 text-white">
-          <div className="max-w-3xl animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 font-poppins">Impact Stories</h1>
-            <p className="text-xl">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-poppins relative inline-block">
+              Impact Stories
+              <span className="absolute -bottom-2 left-0 h-1 bg-brand w-24"></span>
+            </h1>
+            <p className="text-xl text-white/90 mt-6">
               Real stories from individuals whose lives have been transformed through our programs and initiatives.
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Stories Section */}
-      <section className="py-16 md:py-20">
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <SectionHeading 
             title="Personal Stories" 
             subtitle="Behind every project are real people with real stories of transformation"
           />
           
-          {/* Stories Carousel */}
-          <div className="px-4 sm:px-6 lg:px-8 mt-10">
-            <Carousel 
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-2 md:-ml-4">
-                {allCases.map((caseItem) => (
-                  <CarouselItem key={caseItem.id} className="pl-2 md:pl-4 sm:basis-1/2 lg:basis-1/3">
-                    <div className="p-1">
-                      <CaseCard {...caseItem} />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <div className="flex justify-end gap-2 mt-6">
-                <CarouselPrevious 
-                  className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
-                />
-                <CarouselNext 
-                  className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
-                />
-              </div>
-            </Carousel>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="bg-gray-100 py-16 md:py-20">
-        <div className="container mx-auto px-4">
-          <SectionHeading 
-            title="Testimonials" 
-            subtitle="Words from those we've served and our partners"
-            centered
-          />
-          
-          <div className="px-4 sm:px-6 lg:px-8 mt-10">
-            <Carousel 
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent>
-                {testimonials.map((testimonial) => (
-                  <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/3">
-                    <div className="p-1">
-                      <div className="bg-white p-6 rounded-lg shadow-md h-full flex flex-col">
-                        <div className="mb-4">
-                          <svg className="h-8 w-8 text-brand" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                          </svg>
-                        </div>
-                        <p className="text-gray-600 mb-6 italic flex-grow">
-                          "{testimonial.quote}"
-                        </p>
-                        <div className="flex items-center mt-auto">
-                          <div>
-                            <h4 className="font-bold">{testimonial.name}</h4>
-                            <p className="text-gray-600">{testimonial.title}</p>
-                          </div>
-                        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+            {allCases.map((caseItem, index) => (
+              <motion.div
+                key={caseItem.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Link to={`/cases/${caseItem.id}`} className="group block h-full">
+                  <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 h-full hover:shadow-xl transition-all duration-300 group-hover:translate-y-[-5px]">
+                    <div className="relative h-56 overflow-hidden">
+                      <img
+                        src={caseItem.image}
+                        alt={caseItem.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-60"></div>
+                      <div className="absolute bottom-0 left-0 p-5 text-white">
+                        <h3 className="font-bold text-xl">{caseItem.title}</h3>
                       </div>
                     </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <div className="flex justify-center gap-2 mt-6">
-                <CarouselPrevious 
-                  className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
-                />
-                <CarouselNext 
-                  className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
-                />
-              </div>
-            </Carousel>
+                    <div className="p-5">
+                      <p className="text-gray-600 mb-4">{caseItem.summary}</p>
+                      <span className="text-brand flex items-center text-sm font-medium transition-all duration-300 group-hover:translate-x-1">
+                        Read Story <ArrowRight className="ml-1 h-4 w-4" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+          
+          <div className="mt-16 text-center">
+            <Button asChild className="bg-brand hover:bg-brand/90 px-8 py-6 text-white rounded-full">
+              <Link to="/donate">Help Create More Success Stories</Link>
+            </Button>
           </div>
         </div>
       </section>

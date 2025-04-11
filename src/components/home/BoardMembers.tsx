@@ -1,6 +1,5 @@
 
 import SectionHeading from "../shared/SectionHeading";
-import BoardMemberCard from "../shared/BoardMemberCard";
 import { 
   Carousel, 
   CarouselContent, 
@@ -8,6 +7,7 @@ import {
   CarouselNext, 
   CarouselPrevious 
 } from "@/components/ui/carousel";
+import { motion } from "framer-motion";
 
 const boardMembers = [
   {
@@ -29,20 +29,25 @@ const boardMembers = [
     name: "Dr. Yonas Asfaw",
     title: "Medical Director",
     image: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=1000&auto=format&fit=crop"
+  },
+  {
+    name: "Abeba Mulugeta",
+    title: "Finance Director",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1000&auto=format&fit=crop"
   }
 ];
 
 const BoardMembers = () => {
   return (
-    <section className="py-16 md:py-24 bg-gray-50">
+    <section className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="container mx-auto px-4">
         <SectionHeading 
-          title="Our Board Members" 
-          subtitle="Meet the dedicated team leading our organization"
+          title="Our Leadership Team" 
+          subtitle="Meet the dedicated professionals guiding our organization"
           centered
         />
         
-        <div className="px-4 sm:px-6 lg:px-8 mt-12">
+        <div className="mt-12">
           <Carousel 
             opts={{
               align: "start",
@@ -53,13 +58,30 @@ const BoardMembers = () => {
             <CarouselContent className="-ml-2 md:-ml-4">
               {boardMembers.map((member, index) => (
                 <CarouselItem key={index} className="pl-2 md:pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                  <div className="p-1">
-                    <BoardMemberCard {...member} />
-                  </div>
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 group hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="relative overflow-hidden h-64">
+                      <img 
+                        src={member.image} 
+                        alt={member.name} 
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-60"></div>
+                      <div className="absolute bottom-0 left-0 p-4 text-white">
+                        <h3 className="font-bold text-xl">{member.name}</h3>
+                        <p className="text-white/80">{member.title}</p>
+                      </div>
+                    </div>
+                  </motion.div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <div className="flex justify-end gap-2 mt-6">
+            <div className="flex justify-center gap-4 mt-8">
               <CarouselPrevious 
                 className="relative static rounded-full bg-brand text-white hover:bg-brand/90"
               />

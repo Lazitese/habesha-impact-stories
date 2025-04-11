@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { motion } from "framer-motion";
 
 // Sample artworks data
 const artworks = [
@@ -63,7 +64,7 @@ const ArtDetail = () => {
 
   return (
     <MainLayout>
-      <section className="pt-32 pb-16 bg-gray-50">
+      <section className="pt-32 pb-16 bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="container mx-auto px-4">
           <Link to="/gallery" className="inline-flex items-center text-gray-600 hover:text-brand mb-8 transition-colors">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -72,8 +73,13 @@ const ArtDetail = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {/* Left Side - Artwork Images */}
-            <div className="lg:col-span-2">
-              <div className="mb-6 rounded-lg overflow-hidden shadow-lg bg-white p-4">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="lg:col-span-2"
+            >
+              <div className="mb-6 rounded-lg overflow-hidden shadow-lg bg-white p-4 border border-gray-100">
                 <div className="rounded-lg overflow-hidden">
                   <img
                     src={artwork.images[0]}
@@ -87,7 +93,7 @@ const ArtDetail = () => {
               {artwork.images.length > 1 && (
                 <div className="grid grid-cols-2 gap-4">
                   {artwork.images.slice(1).map((image, index) => (
-                    <div key={index} className="rounded-lg overflow-hidden shadow-md bg-white p-2">
+                    <div key={index} className="rounded-lg overflow-hidden shadow-md bg-white p-2 border border-gray-100">
                       <div className="rounded-lg overflow-hidden">
                         <img
                           src={image}
@@ -99,11 +105,16 @@ const ArtDetail = () => {
                   ))}
                 </div>
               )}
-            </div>
+            </motion.div>
             
             {/* Right Side - Artwork Details */}
-            <div className="space-y-6">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="space-y-6"
+            >
+              <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
                 <Badge 
                   className={`mb-4 ${artwork.status === "available" ? "bg-brand" : "bg-gray-500"} text-white px-3 py-1`}
                 >
@@ -121,12 +132,12 @@ const ArtDetail = () => {
                     <DollarSign className="h-5 w-5 text-brand mr-2" />
                     <span className="text-2xl font-bold">${artwork.price.toLocaleString()}</span>
                   </div>
-                  <span className="text-gray-600 bg-white px-3 py-1 rounded-full text-sm">{artwork.medium}</span>
+                  <span className="text-gray-600 bg-white px-3 py-1 rounded-full text-sm shadow-sm border border-gray-100">{artwork.medium}</span>
                 </div>
                 
                 {artwork.status === "available" && (
                   <Button 
-                    className="w-full bg-brand hover:bg-brand/90 py-6 font-medium text-lg"
+                    className="w-full bg-brand hover:bg-brand/90 py-6 font-medium text-lg shadow-md"
                     onClick={() => setIsPurchaseDialogOpen(true)}
                   >
                     Purchase Artwork
@@ -134,27 +145,29 @@ const ArtDetail = () => {
                 )}
               </div>
               
-              <div className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
                 <div className="flex items-center mb-4">
                   <Info className="h-5 w-5 text-brand mr-2" />
                   <h2 className="text-xl font-bold font-poppins">About this Artwork</h2>
                 </div>
-                {descriptionParagraphs.map((paragraph, index) => (
-                  <p key={index} className="text-gray-600 mb-4 leading-relaxed">
-                    {paragraph}
-                  </p>
-                ))}
+                <div className="space-y-4">
+                  {descriptionParagraphs.map((paragraph, index) => (
+                    <p key={index} className="text-gray-600 leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </div>
               
-              <div className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-100">
                 <div className="flex items-center mb-4">
                   <User className="h-5 w-5 text-brand mr-2" />
                   <h2 className="text-xl font-bold font-poppins">About the Artist</h2>
                 </div>
                 
-                <div className="flex flex-col md:flex-row items-start gap-6 mb-6">
+                <div className="flex items-start gap-6 mb-6">
                   {artwork.artistPhoto && (
-                    <div className="w-32 h-32 rounded-full overflow-hidden shadow-md flex-shrink-0 border-4 border-white">
+                    <div className="w-24 h-24 rounded-full overflow-hidden shadow-md border-4 border-white flex-shrink-0">
                       <img
                         src={artwork.artistPhoto}
                         alt={artwork.artist}
@@ -163,7 +176,7 @@ const ArtDetail = () => {
                     </div>
                   )}
                   
-                  <div>
+                  <div className="flex-1">
                     {bioParagraphs.map((paragraph, index) => (
                       <p key={index} className="text-gray-600 mb-4 leading-relaxed">
                         {paragraph}
@@ -177,26 +190,22 @@ const ArtDetail = () => {
                     <h3 className="text-lg font-semibold mb-3 border-b border-gray-200 pb-2">Artist Contact</h3>
                     <div className="space-y-3">
                       {artwork.artistContact.email && (
-                        <div className="flex items-center">
-                          <Mail className="h-5 w-5 text-brand mr-3" />
-                          <a href={`mailto:${artwork.artistContact.email}`} className="text-gray-600 hover:text-brand transition-colors">
-                            {artwork.artistContact.email}
-                          </a>
-                        </div>
+                        <a href={`mailto:${artwork.artistContact.email}`} className="flex items-center text-gray-600 hover:text-brand transition-colors group">
+                          <Mail className="h-5 w-5 text-brand mr-3 group-hover:scale-110 transition-transform" />
+                          <span>{artwork.artistContact.email}</span>
+                        </a>
                       )}
                       {artwork.artistContact.phone && (
-                        <div className="flex items-center">
-                          <Phone className="h-5 w-5 text-brand mr-3" />
-                          <a href={`tel:${artwork.artistContact.phone}`} className="text-gray-600 hover:text-brand transition-colors">
-                            {artwork.artistContact.phone}
-                          </a>
-                        </div>
+                        <a href={`tel:${artwork.artistContact.phone}`} className="flex items-center text-gray-600 hover:text-brand transition-colors group">
+                          <Phone className="h-5 w-5 text-brand mr-3 group-hover:scale-110 transition-transform" />
+                          <span>{artwork.artistContact.phone}</span>
+                        </a>
                       )}
                     </div>
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
