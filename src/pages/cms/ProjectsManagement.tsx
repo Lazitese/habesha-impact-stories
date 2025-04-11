@@ -13,40 +13,50 @@ import {
   Dialog, DialogContent, DialogHeader, 
   DialogTitle, DialogFooter
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import ProjectForm, { ProjectFormValues } from "@/components/cms/ProjectForm";
 
-// Sample projects data (in a real app, this would come from API/database)
+// Sample projects data with the new structure (in a real app, this would come from API/database)
 const sampleProjects = [
   {
     id: 1,
     title: "Clean Water Initiative",
-    description: "Providing access to clean drinking water by building wells and water purification systems in rural communities.",
+    shortDescription: "Providing access to clean drinking water in rural communities.",
+    fullDescription: "The Clean Water Initiative aimed to address the critical shortage of clean water in rural communities of the Amhara Region. Many residents had to walk several kilometers each day to collect water from unsafe sources, leading to waterborne diseases and limiting time for education and economic activities.\n\nFocus areas included constructing 10 deep wells across the region, installing water purification systems in each community, training local technicians to maintain the water systems, and educating communities on water conservation and hygiene practices.\n\nThe project has dramatically improved health outcomes in the target communities, with a 65% reduction in waterborne diseases in the first year after implementation. Children, particularly girls, now have more time to attend school instead of collecting water. Local committees have been established to maintain the systems, ensuring long-term sustainability.\n\nWe faced challenges with difficult terrain for drilling and initially low community engagement. Through persistent community outreach and adapting our technical approaches, we overcame these obstacles.",
     category: "completed",
-    image: "https://images.unsplash.com/photo-1626264146977-0d5839bb5dcd?q=80&w=1000&auto=format&fit=crop"
+    images: [
+      "https://images.unsplash.com/photo-1626264146977-0d5839bb5dcd?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1469159604762-91202891c492?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1528302570631-9123de048188?q=80&w=1000&auto=format&fit=crop"
+    ],
+    mainImageIndex: 0,
+    videoUrl: "https://www.youtube.com/embed/XqZsoesa55w"
   },
   {
     id: 2,
     title: "Education for All",
-    description: "Building schools and providing educational resources to ensure every child has access to quality education.",
+    shortDescription: "Building schools and providing educational resources for every child.",
+    fullDescription: "Education for All is our flagship program aimed at ensuring that every child, regardless of their socioeconomic background, has access to quality education. The program focuses on building and renovating schools, providing educational materials, and training teachers in underserved communities.\n\nSince its inception, the program has built 15 schools across various regions, benefiting over 5,000 children. We've also distributed thousands of textbooks, notebooks, and other learning materials, and provided teacher training to improve the quality of education.\n\nOur approach involves close collaboration with local communities, government agencies, and other stakeholders to ensure the program's sustainability and impact. We regularly monitor and evaluate the program to make necessary adjustments and improvements.",
     category: "ongoing",
-    image: "https://images.unsplash.com/photo-1613899889451-fa6699dfd94d?q=80&w=1000&auto=format&fit=crop"
+    images: [
+      "https://images.unsplash.com/photo-1613899889451-fa6699dfd94d?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?q=80&w=1000&auto=format&fit=crop"
+    ],
+    mainImageIndex: 0,
+    videoUrl: ""
   },
   {
     id: 3,
     title: "Healthcare Access Program",
-    description: "Deploying mobile clinics and training healthcare workers to provide essential medical services in remote areas.",
+    shortDescription: "Deploying mobile clinics and training healthcare workers for remote areas.",
+    fullDescription: "Our Healthcare Access Program aims to provide essential medical services to remote and underserved areas where healthcare infrastructure is limited or non-existent. This multi-faceted program involves deploying mobile clinics, training community health workers, and establishing sustainable healthcare systems.\n\nMobile clinics are equipped with basic medical equipment and staffed by trained healthcare professionals. They travel to remote villages on a regular schedule, providing preventive care, primary healthcare services, maternal and child health services, and health education.\n\nWe also train community health workers from within the local population to provide basic healthcare services, health education, and to serve as a link between the community and the formal healthcare system. This approach ensures that healthcare services remain accessible even when the mobile clinics are not present.\n\nThe program also works on strengthening the existing healthcare systems by collaborating with local health authorities, advocating for improved healthcare policies, and helping to establish sustainable healthcare financing mechanisms.",
     category: "ongoing",
-    image: "https://images.unsplash.com/photo-1567427363205-9c3d5b657f7e?q=80&w=1000&auto=format&fit=crop"
+    images: [
+      "https://images.unsplash.com/photo-1567427363205-9c3d5b657f7e?q=80&w=1000&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1584515979956-b8be1a45f3e5?q=80&w=1000&auto=format&fit=crop"
+    ],
+    mainImageIndex: 0,
+    videoUrl: ""
   }
 ];
 
@@ -56,64 +66,55 @@ const ProjectsManagement = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [currentProject, setCurrentProject] = useState<any>(null);
-  const [newProject, setNewProject] = useState({
-    title: "",
-    description: "",
-    category: "ongoing",
-    image: ""
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleAddProject = () => {
-    // Validate form inputs
-    if (!newProject.title || !newProject.description || !newProject.image) {
-      toast.error("Please fill out all fields");
-      return;
-    }
-
-    // Create new project with generated ID
-    const projectToAdd = {
-      ...newProject,
-      id: Math.max(0, ...projects.map(p => p.id)) + 1
-    };
-
-    setProjects([...projects, projectToAdd]);
-    setIsAddDialogOpen(false);
-    toast.success("Project added successfully");
+  const handleAddProject = (projectData: ProjectFormValues) => {
+    setIsSubmitting(true);
     
-    // Reset form
-    setNewProject({
-      title: "",
-      description: "",
-      category: "ongoing",
-      image: ""
-    });
+    // Simulate API call with a slight delay
+    setTimeout(() => {
+      // Create new project with generated ID
+      const projectToAdd = {
+        ...projectData,
+        id: Math.max(0, ...projects.map(p => p.id)) + 1
+      };
+
+      setProjects([...projects, projectToAdd]);
+      setIsAddDialogOpen(false);
+      toast.success("Project added successfully");
+      setIsSubmitting(false);
+    }, 800);
   };
 
-  const handleEditProject = () => {
-    if (!currentProject) return;
-
-    // Validate form inputs
-    if (!currentProject.title || !currentProject.description || !currentProject.image) {
-      toast.error("Please fill out all fields");
-      return;
-    }
-
-    // Update project
-    setProjects(projects.map(p => 
-      p.id === currentProject.id ? currentProject : p
-    ));
+  const handleEditProject = (projectData: ProjectFormValues) => {
+    setIsSubmitting(true);
     
-    setIsEditDialogOpen(false);
-    toast.success("Project updated successfully");
+    // Simulate API call with a slight delay
+    setTimeout(() => {
+      // Update project
+      setProjects(projects.map(p => 
+        p.id === projectData.id ? projectData : p
+      ));
+      
+      setIsEditDialogOpen(false);
+      toast.success("Project updated successfully");
+      setIsSubmitting(false);
+    }, 800);
   };
 
   const handleDeleteProject = () => {
     if (!currentProject) return;
     
-    // Remove project
-    setProjects(projects.filter(p => p.id !== currentProject.id));
-    setIsDeleteDialogOpen(false);
-    toast.success("Project deleted successfully");
+    setIsSubmitting(true);
+    
+    // Simulate API call with a slight delay
+    setTimeout(() => {
+      // Remove project
+      setProjects(projects.filter(p => p.id !== currentProject.id));
+      setIsDeleteDialogOpen(false);
+      toast.success("Project deleted successfully");
+      setIsSubmitting(false);
+    }, 800);
   };
 
   return (
@@ -145,7 +146,7 @@ const ProjectsManagement = () => {
                   <div className="flex items-center space-x-3">
                     <div className="h-10 w-10 rounded overflow-hidden">
                       <img 
-                        src={project.image} 
+                        src={project.images[project.mainImageIndex]} 
                         alt={project.title} 
                         className="h-full w-full object-cover"
                       />
@@ -169,7 +170,7 @@ const ProjectsManagement = () => {
                   </div>
                 </TableCell>
                 <TableCell className="max-w-md">
-                  <p className="truncate">{project.description}</p>
+                  <p className="truncate">{project.shortDescription}</p>
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end space-x-2">
@@ -211,116 +212,32 @@ const ProjectsManagement = () => {
 
       {/* Add Project Dialog */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="sm:max-w-[525px]">
+        <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add New Project</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="title">Project Title</Label>
-              <Input
-                id="title"
-                value={newProject.title}
-                onChange={(e) => setNewProject({...newProject, title: e.target.value})}
-                placeholder="Enter project title"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="category">Status</Label>
-              <Select 
-                value={newProject.category} 
-                onValueChange={(value) => setNewProject({...newProject, category: value})}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="ongoing">Ongoing</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="image">Image URL</Label>
-              <Input
-                id="image"
-                value={newProject.image}
-                onChange={(e) => setNewProject({...newProject, image: e.target.value})}
-                placeholder="Enter image URL"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                value={newProject.description}
-                onChange={(e) => setNewProject({...newProject, description: e.target.value})}
-                placeholder="Enter project description"
-                rows={4}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>Cancel</Button>
-            <Button onClick={handleAddProject} className="bg-brand hover:bg-brand/90">Save Project</Button>
-          </DialogFooter>
+          <ProjectForm 
+            onSubmit={handleAddProject}
+            onCancel={() => setIsAddDialogOpen(false)}
+            isSubmitting={isSubmitting}
+          />
         </DialogContent>
       </Dialog>
 
       {/* Edit Project Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="sm:max-w-[525px]">
+        <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Project</DialogTitle>
           </DialogHeader>
           {currentProject && (
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="edit-title">Project Title</Label>
-                <Input
-                  id="edit-title"
-                  value={currentProject.title}
-                  onChange={(e) => setCurrentProject({...currentProject, title: e.target.value})}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="edit-category">Status</Label>
-                <Select 
-                  value={currentProject.category} 
-                  onValueChange={(value) => setCurrentProject({...currentProject, category: value})}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ongoing">Ongoing</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="edit-image">Image URL</Label>
-                <Input
-                  id="edit-image"
-                  value={currentProject.image}
-                  onChange={(e) => setCurrentProject({...currentProject, image: e.target.value})}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="edit-description">Description</Label>
-                <Textarea
-                  id="edit-description"
-                  value={currentProject.description}
-                  onChange={(e) => setCurrentProject({...currentProject, description: e.target.value})}
-                  rows={4}
-                />
-              </div>
-            </div>
+            <ProjectForm 
+              defaultValues={currentProject}
+              onSubmit={handleEditProject}
+              onCancel={() => setIsEditDialogOpen(false)}
+              isSubmitting={isSubmitting}
+            />
           )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancel</Button>
-            <Button onClick={handleEditProject} className="bg-brand hover:bg-brand/90">Update Project</Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 
@@ -334,12 +251,19 @@ const ProjectsManagement = () => {
             Are you sure you want to delete "{currentProject?.title}"? This action cannot be undone.
           </p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>Cancel</Button>
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDeleteDialogOpen(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
             <Button 
               variant="destructive" 
               onClick={handleDeleteProject}
+              disabled={isSubmitting}
             >
-              Delete
+              {isSubmitting ? "Deleting..." : "Delete"}
             </Button>
           </DialogFooter>
         </DialogContent>

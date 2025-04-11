@@ -5,19 +5,21 @@ import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-// Sample project data
+// Sample project data (updated to match new structure)
 const projects = [
   {
     id: "1",
     title: "Clean Water Initiative",
     category: "completed" as const,
-    description: "The Clean Water Initiative aimed to address the critical shortage of clean water in rural communities of the Amhara Region. Many residents had to walk several kilometers each day to collect water from unsafe sources, leading to waterborne diseases and limiting time for education and economic activities.\n\nFocus areas included constructing 10 deep wells across the region, installing water purification systems in each community, training local technicians to maintain the water systems, and educating communities on water conservation and hygiene practices.\n\nThe project has dramatically improved health outcomes in the target communities, with a 65% reduction in waterborne diseases in the first year after implementation. Children, particularly girls, now have more time to attend school instead of collecting water. Local committees have been established to maintain the systems, ensuring long-term sustainability.\n\nWe faced challenges with difficult terrain for drilling and initially low community engagement. Through persistent community outreach and adapting our technical approaches, we overcame these obstacles.",
+    shortDescription: "Providing access to clean drinking water in rural communities.",
+    fullDescription: "The Clean Water Initiative aimed to address the critical shortage of clean water in rural communities of the Amhara Region. Many residents had to walk several kilometers each day to collect water from unsafe sources, leading to waterborne diseases and limiting time for education and economic activities.\n\nFocus areas included constructing 10 deep wells across the region, installing water purification systems in each community, training local technicians to maintain the water systems, and educating communities on water conservation and hygiene practices.\n\nThe project has dramatically improved health outcomes in the target communities, with a 65% reduction in waterborne diseases in the first year after implementation. Children, particularly girls, now have more time to attend school instead of collecting water. Local committees have been established to maintain the systems, ensuring long-term sustainability.\n\nWe faced challenges with difficult terrain for drilling and initially low community engagement. Through persistent community outreach and adapting our technical approaches, we overcame these obstacles.",
     images: [
       "https://images.unsplash.com/photo-1626264146977-0d5839bb5dcd?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1469159604762-91202891c492?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1528302570631-9123de048188?q=80&w=1000&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1508124780861-b1687f9a13e5?q=80&w=1000&auto=format&fit=crop"
     ],
+    mainImageIndex: 0,
     videoUrl: "https://www.youtube.com/embed/XqZsoesa55w"
   },
   // More projects would be defined here
@@ -45,7 +47,10 @@ const ProjectDetail = () => {
   }
 
   // Split description into paragraphs
-  const paragraphs = project.description.split('\n\n');
+  const paragraphs = project.fullDescription.split('\n\n');
+  
+  // Get main image
+  const mainImage = project.images[project.mainImageIndex || 0];
 
   return (
     <MainLayout>
@@ -53,7 +58,7 @@ const ProjectDetail = () => {
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28">
         <div className="absolute inset-0 z-0">
           <img
-            src={project.images[0]}
+            src={mainImage}
             alt={project.title}
             className="w-full h-full object-cover"
           />
