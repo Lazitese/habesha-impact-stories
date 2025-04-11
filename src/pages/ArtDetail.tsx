@@ -152,7 +152,7 @@ const ArtDetail = () => {
                 </div>
                 <div className="space-y-4">
                   {descriptionParagraphs.map((paragraph, index) => (
-                    <p key={index} className="text-gray-600 leading-relaxed">
+                    <p key={index} className="text-gray-600 leading-relaxed text-left">
                       {paragraph}
                     </p>
                   ))}
@@ -178,7 +178,7 @@ const ArtDetail = () => {
                   
                   <div className="flex-1">
                     {bioParagraphs.map((paragraph, index) => (
-                      <p key={index} className="text-gray-600 mb-4 leading-relaxed">
+                      <p key={index} className="text-gray-600 mb-4 leading-relaxed text-left">
                         {paragraph}
                       </p>
                     ))}
@@ -187,7 +187,7 @@ const ArtDetail = () => {
                 
                 {artwork.artistContact && (
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-3 border-b border-gray-200 pb-2">Artist Contact</h3>
+                    <h3 className="text-lg font-semibold mb-3 border-b border-gray-200 pb-2 text-left">Artist Contact</h3>
                     <div className="space-y-3">
                       {artwork.artistContact.email && (
                         <a href={`mailto:${artwork.artistContact.email}`} className="flex items-center text-gray-600 hover:text-brand transition-colors group">

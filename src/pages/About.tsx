@@ -5,6 +5,7 @@ import { Handshake, Heart, Users, Globe, BarChart, Lightbulb, Award, UserCheck }
 import { Button } from "@/components/ui/button";
 import SectionHeading from "@/components/shared/SectionHeading";
 import BoardMemberCard from "@/components/shared/BoardMemberCard";
+import { motion } from "framer-motion";
 
 // Board members data
 const boardMembers = [
@@ -67,16 +68,53 @@ const coreValues = [
 const About = () => {
   return (
     <MainLayout>
-      {/* Hero Section */}
+      {/* Hero Section with Organization Description */}
       <section className="relative pt-32 pb-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 font-poppins">
-              About Our Organization
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              We are dedicated to creating lasting positive change in Ethiopian communities through sustainable development, education, and healthcare initiatives.
-            </p>
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="lg:w-1/2"
+            >
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 font-poppins relative inline-block">
+                About Habesha Impact
+                <span className="absolute -bottom-2 left-0 h-1 bg-brand w-24"></span>
+              </h1>
+              <p className="text-xl text-gray-600 mb-8">
+                For over a decade, Habesha Impact has been working alongside Ethiopian communities 
+                to create lasting change through sustainable development initiatives.
+              </p>
+              <p className="text-gray-700 mb-6">
+                Our organization was founded in 2008 by a group of Ethiopian and international 
+                development professionals who shared a vision of community-led sustainable development. 
+                We believe that lasting change happens when communities are empowered to identify their 
+                own needs and develop their own solutions.
+              </p>
+              <p className="text-gray-700">
+                Today, we work across multiple regions in Ethiopia, partnering with local communities, 
+                government agencies, and other organizations to implement programs that address critical 
+                needs in education, healthcare, clean water access, and economic opportunity.
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="lg:w-1/2"
+            >
+              <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                <img 
+                  src="https://images.unsplash.com/photo-1531400158697-004a3a06fd3f?q=80&w=1000&auto=format&fit=crop" 
+                  alt="Our team working in Ethiopia" 
+                  className="w-full h-auto object-cover aspect-[4/3]"
+                />
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>

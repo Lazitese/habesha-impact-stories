@@ -1,17 +1,11 @@
 
 import MainLayout from "@/components/layout/MainLayout";
 import SectionHeading from "@/components/shared/SectionHeading";
-import { 
-  Carousel, 
-  CarouselContent, 
-  CarouselItem, 
-  CarouselNext, 
-  CarouselPrevious 
-} from "@/components/ui/carousel";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import CaseCard from "@/components/shared/CaseCard";
 
 // Sample cases data
 const allCases = [
@@ -102,27 +96,12 @@ const Cases = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Link to={`/cases/${caseItem.id}`} className="group block h-full">
-                  <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 h-full hover:shadow-xl transition-all duration-300 group-hover:translate-y-[-5px]">
-                    <div className="relative h-56 overflow-hidden">
-                      <img
-                        src={caseItem.image}
-                        alt={caseItem.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-60"></div>
-                      <div className="absolute bottom-0 left-0 p-5 text-white">
-                        <h3 className="font-bold text-xl">{caseItem.title}</h3>
-                      </div>
-                    </div>
-                    <div className="p-5">
-                      <p className="text-gray-600 mb-4">{caseItem.summary}</p>
-                      <span className="text-brand flex items-center text-sm font-medium transition-all duration-300 group-hover:translate-x-1">
-                        Read Story <ArrowRight className="ml-1 h-4 w-4" />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
+                <CaseCard 
+                  id={caseItem.id} 
+                  title={caseItem.title}
+                  summary={caseItem.summary}
+                  image={caseItem.image}
+                />
               </motion.div>
             ))}
           </div>
